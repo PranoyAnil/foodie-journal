@@ -1,4 +1,39 @@
-<html><body><header>The Foodie</header><div style="text-align:center; margin: 1em;"><button aria-label="Toggle Theme" id="toggle-theme" style="font-size: 1.5em;">🌙</button></div><script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Foodie | Foodie Journal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Foodie Journal</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="the-foodie.html">The Foodie</a>
+      <a href="gallery.html">Gallery</a>
+    </nav>
+  </header>
+
+  <div style="text-align:center; margin: 1em;">
+    <button id="toggle-theme" aria-label="Toggle Theme" style="font-size: 1.5em;">🌙</button>
+  </div>
+
+  <section class="blog-post" style="text-align:center;">
+    <h2>The Foodie</h2>
+    <img src="images/your-photo.jpg" alt="My Photo" style="max-width: 160px; border-radius: 50%; margin-bottom: 1em;">
+    <p>Hello! I'm <strong>The Foodie</strong> — a passionate home cook, recipe explorer, and chai aficionado.</p>
+    <p>On this blog, I share my favorite meals, honest food reviews, and snapshots from my flavorful journey. Whether it's street eats or homemade classics, I believe every dish has a story worth telling.</p>
+    <p>Thanks for visiting — pull up a seat and dig in!</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Foodie Journal</p>
+  </footer>
+
+  <script>
     const toggleBtn = document.getElementById('toggle-theme');
     toggleBtn.addEventListener('click', () => {
       const isDark = document.body.classList.toggle('dark-mode');
@@ -10,4 +45,6 @@
       document.body.classList.add('dark-mode');
       document.getElementById('toggle-theme').textContent = '☀️';
     }
-    </script></body></html>
+  </script>
+</body>
+</html>
