@@ -11,6 +11,20 @@
     "date": "2025-06-10",
     "category": "Review",
     "excerpt": "A flavorful Indian buffet with rich curries and fresh naan.",
-    "url": "#spicy-masala"
+    "url": "tastings.html#spicy-masala"
+  },
+  {
+    "title": "Paneer Tikka Bowl",
+    "date": "2025-06-06",
+    "category": "Takeout",
+    "excerpt": "Char-grilled paneer cubes with peppers and onions, served with jeera rice.",
+    "url": "tastings.html#paneer-tikka"
+  },
+  {
+    "title": "Thali & Chai",
+    "date": "2025-06-03",
+    "category": "Dine-in",
+    "excerpt": "Classic Indian thali with sweets and spiced tea in a takeaway tray.",
+    "url": "tastings.html#thali-chai"
   }
 ]
