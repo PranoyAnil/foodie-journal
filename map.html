@@ -3,17 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restaurant Map | Foodie Journal</title>
+  <title>Map | Foodie Journal</title>
+  <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
   <style>
-    #map { height: 500px; width: 100%; margin-top: 1em; }
+    #map { height: 500px; width: 100%; margin: 2em auto; }
     .marker-cluster div {
-      background-color: #ff8c00 !important;
-      color: #fff;
+      background-color: #f15b2a !important;
+      color: white;
       font-weight: bold;
-      border: 2px solid #fff;
+      border: 2px solid white;
+    }
+    .blog-post {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
     }
   </style>
 </head>
@@ -22,34 +28,15 @@
     <h1>Foodie Journal</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="reviews.html">Reviews</a>
+      <a href="tastings.html">Tastings</a>
       <a href="the-foodie.html">The Foodie</a>
       <a href="map.html">Map</a>
     </nav>
   </header>
 
-  <div style="text-align: center; margin-top: 1em;">
-    <label for="category-filter">Filter by Category: </label>
-    <select id="category-filter">
-      <option value="All">All</option>
-      <option value="Indian">Indian</option>
-      <option value="Pakistani">Pakistani</option>
-      <option value="Street Food">Street Food</option>
-      <option value="Buffet">Buffet</option>
-    </select>
-  </div>
-
-  <div style="margin: 1em auto; max-width: 300px;">
-    <strong>Legend:</strong>
-    <div><span style="display:inline-block;width:12px;height:12px;background:red;border-radius:50%;margin-right:6px;"></span>Indian</div>
-    <div><span style="display:inline-block;width:12px;height:12px;background:green;border-radius:50%;margin-right:6px;"></span>Pakistani</div>
-    <div><span style="display:inline-block;width:12px;height:12px;background:orange;border-radius:50%;margin-right:6px;"></span>Street Food</div>
-    <div><span style="display:inline-block;width:12px;height:12px;background:blue;border-radius:50%;margin-right:6px;"></span>Buffet</div>
-  </div>
-
   <section class="blog-post">
-    <h2>Visited Restaurants</h2>
-    <p>Click on a marker to see where I've eaten and how I'd rate it!</p>
+    <h2>Visited Restaurants Map</h2>
+    <p>Click a pin to see where I've eaten and how I'd rate it!</p>
     <div id="map"></div>
   </section>
 
@@ -103,25 +90,16 @@
     function createMarkers(data) {
       allMarkers.forEach(marker => markerClusterGroup.removeLayer(marker));
       allMarkers = [];
-      const selectedCategory = document.getElementById("category-filter").value;
 
       data.forEach(place => {
-        if (selectedCategory === "All" || place.category === selectedCategory) {
-          const color = categoryColors[place.category] || "gray";
-          const marker = L.marker(place.coords, {
-            icon: createCustomIcon(color)
-          }).bindPopup(`<strong>${place.name}</strong><br>Rating: ${place.rating} ⭐<br>Category: ${place.category}`);
-          markerClusterGroup.addLayer(marker);
-          allMarkers.push(marker);
-        }
+        const color = categoryColors[place.category] || "gray";
+        const marker = L.marker(place.coords, {
+          icon: createCustomIcon(color)
+        }).bindPopup(`<strong>${place.name}</strong><br>Rating: ${place.rating} ⭐<br>Category: ${place.category}`);
+        markerClusterGroup.addLayer(marker);
+        allMarkers.push(marker);
       });
     }
-
-    document.getElementById("category-filter").addEventListener("change", () => {
-      fetch('restaurants.json')
-        .then(res => res.json())
-        .then(createMarkers);
-    });
 
     fetch('restaurants.json')
       .then(res => res.json())
