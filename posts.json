@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Creamy Garlic Pasta",
+    "date": "2025-06-14",
+    "category": "Recipe",
+    "excerpt": "A quick, creamy pasta with garlic and butter — perfect for busy nights.",
+    "url": "food-post.html"
+  },
+  {
+    "title": "Spicy Masala Reviewed",
+    "date": "2025-06-10",
+    "category": "Review",
+    "excerpt": "A flavorful Indian buffet with rich curries and fresh naan.",
+    "url": "reviews.html#spicy-masala"
+  }
+]
