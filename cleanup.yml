@@ -1,0 +1,25 @@
+name: Cleanup Old Blog Files
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Delete obsolete files
+        run: |
+          rm -f recipes.html recipe-post.html contact.html old-blog.html
+
+      - name: Commit and push cleanup
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add -u
+          git commit -m "Auto-clean old blog files"
+          git push origin main
+        continue-on-error: true
