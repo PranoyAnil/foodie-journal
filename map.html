@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Map | Foodie Journal</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <style>
+    #map { height: 500px; width: 100%; margin-top: 1em; }
+    .marker-cluster div {
+      background-color: #ff8c00 !important;
+      color: #fff;
+      font-weight: bold;
+      border: 2px solid #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Foodie Journal</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="the-foodie.html">The Foodie</a>
+      <a href="map.html">Map</a>
+    </nav>
+  </header>
+
+  <div style="text-align: center; margin-top: 1em;">
+    <label for="category-filter">Filter by Category: </label>
+    <select id="category-filter">
+      <option value="All">All</option>
+      <option value="Indian">Indian</option>
+      <option value="Pakistani">Pakistani</option>
+      <option value="Street Food">Street Food</option>
+      <option value="Buffet">Buffet</option>
+    </select>
+  </div>
+
+  <div style="margin: 1em auto; max-width: 300px;">
+    <strong>Legend:</strong>
+    <div><span style="display:inline-block;width:12px;height:12px;background:red;border-radius:50%;margin-right:6px;"></span>Indian</div>
+    <div><span style="display:inline-block;width:12px;height:12px;background:green;border-radius:50%;margin-right:6px;"></span>Pakistani</div>
+    <div><span style="display:inline-block;width:12px;height:12px;background:orange;border-radius:50%;margin-right:6px;"></span>Street Food</div>
+    <div><span style="display:inline-block;width:12px;height:12px;background:blue;border-radius:50%;margin-right:6px;"></span>Buffet</div>
+  </div>
+
+  <section class="blog-post">
+    <h2>Visited Restaurants</h2>
+    <p>Click on a marker to see where I've eaten and how I'd rate it!</p>
+    <div id="map"></div>
+  </section>
+
+  <footer>
+    <p>© 2025 Foodie Journal</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script>
+    const map = L.map('map').setView([43.65107, -79.347015], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const categoryColors = {
+      "Indian": "red",
+      "Pakistani": "green",
+      "Street Food": "orange",
+      "Buffet": "blue"
+    };
+
+    function createCustomIcon(color) {
+      return L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div style="background-color:${color};width:16px;height:16px;border-radius:50%;border:2px solid white;"></div>`,
+        iconSize: [16, 16],
+        iconAnchor: [8, 8]
+      });
+    }
+
+    function createCategoryClusterIcon(cluster) {
+      const count = cluster.getChildCount();
+      return L.divIcon({
+        html: `<div><span>${count}</span></div>`,
+        className: 'marker-cluster marker-cluster-food',
+        iconSize: [40, 40]
+      });
+    }
+
+    const markerClusterGroup = L.markerClusterGroup({
+      iconCreateFunction: createCategoryClusterIcon,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true
+    });
+    map.addLayer(markerClusterGroup);
+
+    let allMarkers = [];
+
+    function createMarkers(data) {
+      allMarkers.forEach(marker => markerClusterGroup.removeLayer(marker));
+      allMarkers = [];
+      const selectedCategory = document.getElementById("category-filter").value;
+
+      data.forEach(place => {
+        if (selectedCategory === "All" || place.category === selectedCategory) {
+          const color = categoryColors[place.category] || "gray";
+          const marker = L.marker(place.coords, {
+            icon: createCustomIcon(color)
+          }).bindPopup(`<strong>${place.name}</strong><br>Rating: ${place.rating} ⭐<br>Category: ${place.category}`);
+          markerClusterGroup.addLayer(marker);
+          allMarkers.push(marker);
+        }
+      });
+    }
+
+    document.getElementById("category-filter").addEventListener("change", () => {
+      fetch('restaurants.json')
+        .then(res => res.json())
+        .then(createMarkers);
+    });
+
+    fetch('restaurants.json')
+      .then(res => res.json())
+      .then(createMarkers);
+  </script>
+</body>
+</html>

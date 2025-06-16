@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Spicy Masala",
+    "coords": [43.6532, -79.3832],
+    "rating": 4.5,
+    "category": "Indian"
+  },
+  {
+    "name": "Curry Corner",
+    "coords": [43.6426, -79.3871],
+    "rating": 4.0,
+    "category": "Pakistani"
+  },
+  {
+    "name": "Bombay Street",
+    "coords": [43.6617, -79.3950],
+    "rating": 4.8,
+    "category": "Street Food"
+  },
+  {
+    "name": "Tandoori Flame",
+    "coords": [43.7000, -79.3900],
+    "rating": 4.2,
+    "category": "Buffet"
+  }
+]
